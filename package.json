@@ -1,0 +1,21 @@
+{
+  "name": "proyectogeneradata",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neztoring/ProyectoGeneraData.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neztoring/ProyectoGeneraData/issues"
+  },
+  "homepage": "https://github.com/neztoring/ProyectoGeneraData#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.28.0"
+  }
+}
