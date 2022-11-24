@@ -7,68 +7,60 @@ test.beforeEach(async ({ page }) => {
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
   await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
   await page.locator('#ember10').click();
-  await page.goto('http://localhost:2368/ghost/#/dashboard');
+  await page.goto('http://localhost:2368/ghost/#/settings/staff');
 });
 
 test('Debes poder editar un perfil con nombre', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-name').fill(faker.name.fullName());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con slug', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-slug').fill(faker.internet.userName());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con location', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-location').fill(faker.address.cityName());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con sitio web', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-website').fill(faker.internet.domainName());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con cuenta de facebook', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-facebook').fill(faker.internet.userName());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con cuenta de twitter', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-twitter').fill(faker.internet.userName());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con biografia', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-bio').fill(faker.datatype.string());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('Debes poder editar un perfil con todos los datos', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
+  await page.click('text=OWNER');
   await page.locator('#user-name').fill(faker.name.fullName());
   await page.locator('#user-slug').fill(faker.internet.userName());
   await page.locator('#user-location').fill(faker.address.cityName());
@@ -76,14 +68,13 @@ test('Debes poder editar un perfil con todos los datos', async ({ page }) => {
   await page.locator('#user-facebook').fill(faker.internet.userName());
   await page.locator('#user-twitter').fill(faker.internet.userName());
   await page.locator('#user-bio').fill(faker.datatype.string());
-  await page.locator('#ember64').click();
+  await page.click('text=Save');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
 test('DNo debes poder editar el email con un nombre', async ({ page }) => {
-  await page.locator('#ember16').click();
-  await page.locator('#ember55').click();
-  await page.locator('#member-email').fill(faker.name.fullName());
-  await page.locator('#ember64').click();
+  await page.click('text=OWNER');
+  await page.locator('#user-email').fill(faker.name.fullName());
+  await page.click('text=Save');
   await expect(page.getByText(/Retry/)).toBeTruthy();
 });

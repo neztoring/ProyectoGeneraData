@@ -19,5 +19,7 @@
     "@faker-js/faker": "^7.6.0",
     "@playwright/test": "^1.28.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  }
 }

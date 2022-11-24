@@ -8,7 +8,8 @@ test('Crear una nueva integracion', async ({ page }) => {
   await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
   await page.locator('#ember10').click();
   await page.goto('http://localhost:2368/ghost/#/settings/integrations');
-  await page.locator('#ember49').click();
+  await page.getByText(/Add custom integration/).click();
   await page.locator('#new-integration-name').fill(faker.system.commonFileName());
+  await page.getByRole('button', { name: 'Create' }).click();
   await expect(page.getByText(/Created/)).toBeTruthy();
 });
