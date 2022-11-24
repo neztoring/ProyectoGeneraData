@@ -1,20 +1,14 @@
 import { test, expect } from '@playwright/test';
+import { USERNAME, PASSWORD } from '../../properties.json';
+import { faker } from '@faker-js/faker';
 
-test('homepage has title and links to intro page', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-
-  // create a locator
-  const getStarted = page.getByRole('link', { name: 'Get started' });
-
-  // Expect an attribute "to be strictly equal" to the value.
-  await expect(getStarted).toHaveAttribute('href', '/docs/intro');
-
-  // Click the get started link.
-  await getStarted.click();
-
-  // Expects the URL to contain intro.
-  await expect(page).toHaveURL(/.*intro/);
+test('Crear una nueva integracion', async ({ page }) => {
+  await page.goto('http://localhost:2368/ghost/');
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.locator('#ember10').click();
+  await page.goto('http://localhost:2368/ghost/#/settings/integrations');
+  await page.locator('#ember49').click();
+  await page.locator('#new-integration-name').fill(faker.system.commonFileName());
+  await expect(page.getByText(/Created/)).toBeTruthy();
 });

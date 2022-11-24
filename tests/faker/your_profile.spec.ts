@@ -1,20 +1,89 @@
 import { test, expect } from '@playwright/test';
+import { USERNAME, PASSWORD } from '../../properties.json';
+import { faker } from '@faker-js/faker';
 
-test('homepage has title and links to intro page', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test.beforeEach(async ({ page }) => {
+  await page.goto('http://localhost:2368/ghost/');
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.locator('#ember10').click();
+  await page.goto('http://localhost:2368/ghost/#/dashboard');
+});
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+test('Debes poder editar un perfil con nombre', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-name').fill(faker.name.fullName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
 
-  // create a locator
-  const getStarted = page.getByRole('link', { name: 'Get started' });
+test('Debes poder editar un perfil con slug', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-slug').fill(faker.internet.userName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
 
-  // Expect an attribute "to be strictly equal" to the value.
-  await expect(getStarted).toHaveAttribute('href', '/docs/intro');
+test('Debes poder editar un perfil con location', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-location').fill(faker.address.cityName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
 
-  // Click the get started link.
-  await getStarted.click();
+test('Debes poder editar un perfil con sitio web', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-website').fill(faker.internet.domainName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
 
-  // Expects the URL to contain intro.
-  await expect(page).toHaveURL(/.*intro/);
+test('Debes poder editar un perfil con cuenta de facebook', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-facebook').fill(faker.internet.userName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
+
+test('Debes poder editar un perfil con cuenta de twitter', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-twitter').fill(faker.internet.userName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
+
+test('Debes poder editar un perfil con biografia', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-bio').fill(faker.datatype.string());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
+
+test('Debes poder editar un perfil con todos los datos', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#user-name').fill(faker.name.fullName());
+  await page.locator('#user-slug').fill(faker.internet.userName());
+  await page.locator('#user-location').fill(faker.address.cityName());
+  await page.locator('#user-website').fill(faker.internet.domainName());
+  await page.locator('#user-facebook').fill(faker.internet.userName());
+  await page.locator('#user-twitter').fill(faker.internet.userName());
+  await page.locator('#user-bio').fill(faker.datatype.string());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Saved/)).toBeTruthy();
+});
+
+test('DNo debes poder editar el email con un nombre', async ({ page }) => {
+  await page.locator('#ember16').click();
+  await page.locator('#ember55').click();
+  await page.locator('#member-email').fill(faker.name.fullName());
+  await page.locator('#ember64').click();
+  await expect(page.getByText(/Retry/)).toBeTruthy();
 });
