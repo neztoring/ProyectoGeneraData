@@ -1,20 +1,68 @@
 import { test, expect } from '@playwright/test';
+import { faker } from '@faker-js/faker'
 
-test('homepage has title and links to intro page', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+test('TAG01. Crear Tag con datos básicos y Eliminar Tag', async ({ page }) => {
+  await page.goto('http://localhost:2368/ghost/');
+  await page.goto('http://localhost:2368/ghost/#/signin');
+  await page.getByPlaceholder('jamie@example.com').click();
+  await page.getByPlaceholder('jamie@example.com').fill('n.pereze@uniandes.edu.co');
+  await page.getByPlaceholder('jamie@example.com').press('Tab');
+  await page.getByPlaceholder('•••••••••••••••').fill('Maleja2016');
+  await page.getByPlaceholder('•••••••••••••••').press('Enter');
+  await page.getByRole('link', { name: 'Tags' }).click();
+  
+  const tagName=faker.commerce.product();
 
-  // create a locator
-  const getStarted = page.getByRole('link', { name: 'Get started' });
+  await page.locator("//span[normalize-space()='New tag']").click();
+  await page.getByLabel('Name').click();
+  await page.getByLabel('Name').fill(tagName);
 
-  // Expect an attribute "to be strictly equal" to the value.
-  await expect(getStarted).toHaveAttribute('href', '/docs/intro');
+  await page.getByRole('textbox', { name: 'Accent color picker' }).click();
+  await page.getByRole('textbox', { name: 'Accent color picker' }).fill(faker.color.rgb({ format: 'hex' }) );
+  await page.getByLabel('Slug').click();
 
-  // Click the get started link.
-  await getStarted.click();
 
-  // Expects the URL to contain intro.
-  await expect(page).toHaveURL(/.*intro/);
+  await page.locator("(//textarea[@id='tag-description'])[1]").click();
+  await page.locator("(//textarea[@id='tag-description'])[1]").fill(faker.commerce.productDescription());
+
+
+  await page.getByRole('button', { name: 'Expand' }).first().click();
+  
+  await page.locator("(//input[@id='meta-title'])[1]").click();
+  await page.locator("(//input[@id='meta-title'])[1]").fill(faker.word.verb());
+
+
+  await page.locator("(//textarea[@id='meta-description'])[1]").click();
+  await page.locator("(//textarea[@id='meta-description'])[1]").fill(faker.commerce.productDescription());
+
+
+  
+  await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('button', { name: 'Save' }).click();
+
+
+  await page.locator("(//a[normalize-space()='Tags'])[1]").click();
+  await page.locator("(//h3[normalize-space()='"+tagName+"'])[1]").click();
+
+  
+
+  await page.getByRole('button', { name: 'Delete tag' }).click();
+  await page.locator("(//button[contains(@class,'gh-btn-red')])[2]").click()
+
+  
+  await page.locator('#ember31').click();
+  await page.getByRole('link', { name: 'Sign out' }).click();
+ 
+  const locator2 = page.locator("(//span[contains(text(),'Sign in →')])[1]");
+  await expect(locator2).toBeVisible();
+
+ 
 });
+
+
+
+
+
+
+
