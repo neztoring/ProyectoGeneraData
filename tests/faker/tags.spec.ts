@@ -1,14 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker'
-
+import { USERNAME, PASSWORD,GhostURL } from '../../properties.json';
 
 test('TAG01. Crear Tag con datos básicos y Eliminar Tag', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
-  await page.goto('http://localhost:2368/ghost/#/signin');
+  await page.goto(GhostURL);
   await page.getByPlaceholder('jamie@example.com').click();
-  await page.getByPlaceholder('jamie@example.com').fill('n.pereze@uniandes.edu.co');
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
   await page.getByPlaceholder('jamie@example.com').press('Tab');
-  await page.getByPlaceholder('•••••••••••••••').fill('Maleja2016');
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
   await page.getByPlaceholder('•••••••••••••••').press('Enter');
   await page.getByRole('link', { name: 'Tags' }).click();
   

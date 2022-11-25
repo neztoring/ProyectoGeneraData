@@ -1,15 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker'
+import { USERNAME, PASSWORD,GhostURL } from '../../properties.json';
 
 
 
 test('LOGIN01.Login correcto', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
-  await page.getByPlaceholder('jamie@example.com').fill('n.pereze@uniandes.edu.co');
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
   await page.getByPlaceholder('jamie@example.com').press('Tab');
-  await page.getByPlaceholder('•••••••••••••••').fill('Maleja2016');
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
   await page.getByRole('button', { name: 'Sign in →' }).click();
 
   
@@ -26,10 +27,10 @@ test('LOGIN01.Login correcto', async ({ page }) => {
 });
 
 test('LOGIN02.Login usuario registrado con password incorrecto', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
-  await page.getByPlaceholder('jamie@example.com').fill('n.pereze@uniandes.edu.co');
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
   await page.getByPlaceholder('jamie@example.com').press('Tab');
   await page.getByPlaceholder('•••••••••••••••').fill(faker.internet.password());
   await page.getByRole('button', { name: 'Sign in →' }).click();
@@ -41,7 +42,7 @@ test('LOGIN02.Login usuario registrado con password incorrecto', async ({ page }
 
 
 test('LOGIN03.Login con email de usuario no registrado', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
   await page.getByPlaceholder('jamie@example.com').fill(faker.internet.exampleEmail());
@@ -55,7 +56,7 @@ test('LOGIN03.Login con email de usuario no registrado', async ({ page }) => {
 });
 
 test('LOGIN04.Login con email o password vacio', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
   await page.getByPlaceholder('jamie@example.com').fill(faker.internet.exampleEmail());
@@ -68,7 +69,7 @@ test('LOGIN04.Login con email o password vacio', async ({ page }) => {
 });
 
 test('LOGIN05.Login con email con formato inválido', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
   await page.getByPlaceholder('jamie@example.com').fill(faker.internet.exampleEmail()+'@'+faker.internet.domainSuffix());
@@ -83,7 +84,7 @@ test('LOGIN05.Login con email con formato inválido', async ({ page }) => {
 
 
 test('LOGIN06.Forgot sin ingresar email', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
   await page.getByPlaceholder('jamie@example.com').press('Tab');
@@ -97,10 +98,10 @@ test('LOGIN06.Forgot sin ingresar email', async ({ page }) => {
 
 
 test('LOGIN07.Forgot con email de usuario registrado', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
-  await page.getByPlaceholder('jamie@example.com').fill('n.pereze@uniandes.edu.co');
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
   await page.getByPlaceholder('jamie@example.com').press('Tab');
   await page.getByPlaceholder('•••••••••••••••').fill(faker.internet.password());
   await  page.locator("(//span[contains(text(),'Forgot?')])[1]").click();
@@ -111,7 +112,7 @@ test('LOGIN07.Forgot con email de usuario registrado', async ({ page }) => {
 
 
 test('LOGIN08.Forgot con email de usuario no registrado', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
 
   await page.getByPlaceholder('jamie@example.com').click();
   await page.getByPlaceholder('jamie@example.com').fill(faker.internet.exampleEmail());
