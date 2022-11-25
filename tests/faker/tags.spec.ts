@@ -384,7 +384,7 @@ test('TAG07. Crear Tag y Crear un Post y agregar el tag al Post y visualizar el 
   await page.locator("(//a[@title='New post'])[1]").click();
  
 
-  await page.getByPlaceholder('Post title').fill('Productos de Tecnolog');
+  await page.getByPlaceholder('Post title').fill(faker.word.adverb());
   await page.getByRole('button', { name: 'Settings' }).click();
 
   
