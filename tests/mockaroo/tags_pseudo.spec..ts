@@ -3,10 +3,6 @@ import { faker } from '@faker-js/faker'
 import { USERNAME, PASSWORD,GhostURL,URL_PSEUDO_TAGS } from '../../properties.json';
 
 
-
-
-
-
 test('TAG01. Crear Tag con datos básicos', async ({ page, request }) => {
   await page.goto(GhostURL);
   await page.getByPlaceholder('jamie@example.com').click();
@@ -35,30 +31,23 @@ test('TAG01. Crear Tag con datos básicos', async ({ page, request }) => {
 
 
   await page.getByRole('button', { name: 'Expand' }).first().click();
-  
-  await page.locator("(//input[@id='meta-title'])[1]").click();
+   await page.locator("(//input[@id='meta-title'])[1]").click();
   await page.locator("(//input[@id='meta-title'])[1]").fill(dataTag.fb_title);
-
 
   await page.locator("(//textarea[@id='meta-description'])[1]").click();
   await page.locator("(//textarea[@id='meta-description'])[1]").fill(dataTag.fb_description);
 
-
-  
   await page.getByRole('button', { name: 'Close' }).click();
   await page.getByRole('button', { name: 'Save' }).click();
- 
   
   await page.locator("(//a[normalize-space()='Tags'])[1]").click();
   await page.locator("(//h3[normalize-space()='"+dataTag.tag_name+"'])[1]").click();
-
-    
+   
   await page.locator('#ember31').click();
   await page.getByRole('link', { name: 'Sign out' }).click();
  
   const locator2 = page.locator("(//span[contains(text(),'Sign in →')])[1]");
   await expect(locator2).toBeVisible();
-
  
 });
 

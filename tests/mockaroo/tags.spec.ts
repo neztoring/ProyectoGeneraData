@@ -301,7 +301,7 @@ test('TAG06. Crear Tag con datos que tengan formato inválido', async ({ page })
 
 
   await page.locator("(//input[@name='accent-color'])[1]").click();
-  await page.locator("(//input[@name='accent-color'])[1]").fill(faker.name.firstName());
+  await page.locator("(//input[@name='accent-color'])[1]").fill(dataTag.tag_name);
 
  
   await page.getByLabel('Slug').click();
