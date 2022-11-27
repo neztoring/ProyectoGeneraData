@@ -1,14 +1,4 @@
 # ProyectoGeneraData
-Instrucciones:
-1. Clonar repositorio
-2. Correr comando "npm install"
-3. Correr ghost 5.18.0
-4. Crear una nueva cuenta de admin
-5. Guardar las credenciales en el archivo properties.json
-6. Agregar la cuenta admin a miembros
-7. Correr el comando npx playwright test
-
-
 
 
 
@@ -19,7 +9,8 @@ Instrucciones:
 
 ![image](https://user-images.githubusercontent.com/20029761/204121372-29f4d343-68bd-461c-a498-bd6733c2c390.png)
 
-Los tests estan dividos por el tipo de herramienta utilizada para la genenración de datos faker/mockaroo.
+- Los tests estan dividos por el tipo de herramienta utilizada para la genenración de datos faker/mockaroo.
+- En el directorio **schema** se encuentran la data generada con la herramienta Mockaroo para los escenarios de prueba **A priori**
 
 
 **2. Instalación del proyecto**
@@ -32,7 +23,7 @@ Los tests estan dividos por el tipo de herramienta utilizada para la genenració
 - Ejecución de todos los tests
     - Ejecutar el comando **npx playwright test --headed**
     - Despues de terminada la ejecución para visualizar los resultados ejecuar el comando **npx playwright show-report**
-    - Nota: Para esta ejecución se recomienda no ejecutar los test de Login porque puede que se genere el error **"Too many attempts try again in an hour"** y esto no permitirá ejecuar los siguientes tests.
+    - Nota: Para esta ejecución se recomienda no ejecutar los test de Login porque puede que se genere el error **"Too many attempts try again in an hour"** y esto no permitirá ejecuar de forma existosa  los siguientes tests donde se realice autenticación.
  - Ejecución de test de forma individual
     - Ejecutar el comando **npx playwright test login.spec.ts --headed**
       Si el test existe en el directorio faker y mockaroo se ejecutaran a la vez y los resultados se visualizarán en el reporte de las ejecución de los 2 tests 
