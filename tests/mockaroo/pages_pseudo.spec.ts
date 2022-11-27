@@ -1,10 +1,13 @@
-import { USERNAME, PASSWORD,GhostURL } from '../../properties.json';
-import { test, expect } from '@playwright/test';
-import data from '../../schema/schema_page.json';
+import { USERNAME, PASSWORD,GhostURL, URL_PSEUDO_PAGES } from '../../properties.json';
+import { test, expect, request } from '@playwright/test';
 
-test('PAGE01. Titulo no puede ser mayor a 255 caracteres',async ({page}) => {
-  
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+
+test('PAGE01. Titulo no puede ser mayor a 255 caracteres',async ({page, request}) => {
+
+  const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -29,8 +32,11 @@ test('PAGE01. Titulo no puede ser mayor a 255 caracteres',async ({page}) => {
   page.close();
 });
 
-test('PAGE02. Invalid date format: date', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE02. Invalid date format: date', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -59,8 +65,11 @@ test('PAGE02. Invalid date format: date', async ({ page }) => {
   page.close();
 });
 
-test('PAGE03. Invalid date format: hour', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE03. Invalid date format: hour', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -87,8 +96,11 @@ test('PAGE03. Invalid date format: hour', async ({ page }) => {
   page.close();
 });
 
-test('PAGE04. Crear page correctamente',async ({page}) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE04. Crear page correctamente',async ({page, request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
 	await page.waitForTimeout(2000);
   await page.type('input[name="identification"]', USERNAME);
@@ -117,7 +129,6 @@ test('PAGE04. Crear page correctamente',async ({page}) => {
 
 	await page.waitForTimeout(2000);
   await page.click("text=Editor");
-  await page.waitForTimeout(2000);
   await page.click("text=Pages");
 	
   await page.click("div.gh-contentfilter-menu.gh-contentfilter-type > div.ember-view.ember-basic-dropdown-trigger.ember-power-select-trigger.gh-contentfilter-menu-trigger");
@@ -128,8 +139,11 @@ test('PAGE04. Crear page correctamente',async ({page}) => {
   page.close();
 });
 
-test('PAGE05. Excerpt no puede ser mayor de 300 caracteres', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE05. Excerpt no puede ser mayor de 300 caracteres', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -154,8 +168,11 @@ test('PAGE05. Excerpt no puede ser mayor de 300 caracteres', async ({ page }) =>
   page.close();
 });
 
-test('PAGE06. Metadata title no puede ser mayor a 300 caracteres', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE06. Metadata title no puede ser mayor a 300 caracteres', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -184,8 +201,11 @@ test('PAGE06. Metadata title no puede ser mayor a 300 caracteres', async ({ page
   page.close();
 });
 
-test('PAGE07. Metadata Description no puede ser mayor a 500 caracteres', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE07. Metadata Description no puede ser mayor a 500 caracteres', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -214,8 +234,11 @@ test('PAGE07. Metadata Description no puede ser mayor a 500 caracteres', async (
   page.close();
 });
 
-test('PAGE08. Metadata url error', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE08. Metadata url error', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -242,8 +265,11 @@ test('PAGE08. Metadata url error', async ({ page }) => {
   page.close();
 });
 
-test('PAGE09. Twitter title no puede ser mayor a 300 caracteres', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE09. Twitter title no puede ser mayor a 300 caracteres', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -270,8 +296,11 @@ test('PAGE09. Twitter title no puede ser mayor a 300 caracteres', async ({ page 
   page.close();
 });
 
-test('PAGE10. Twitter Description no puede ser mayor a 500 caracteres', async ({ page }) => {
-  const dataPage=data[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+test('PAGE10. Twitter Description no puede ser mayor a 500 caracteres', async ({ page , request}) => {
+    const response = await request.get(URL_PSEUDO_PAGES);
+  let dataSpseudo= JSON.parse(await response.text());
+
+  const dataPage=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
   await page.goto(GhostURL);
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
@@ -293,7 +322,7 @@ test('PAGE10. Twitter Description no puede ser mayor a 500 caracteres', async ({
   await page.locator('#twitter-description').fill(dataPage.twitter_description+"");
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Publish' }).click();
-  const error = page.getByText('Validation failed: Twitter Title cannot be longer than 300 characters.');
+  const error = page.getByText('Validation failed: Twitter Description cannot be longer than 500 characters.');
   expect(error).toBeVisible
   page.close();
 });
