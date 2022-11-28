@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
-import { USERNAME, PASSWORD } from '../../properties.json';
+import { USERNAME, PASSWORD, GhostURL } from '../../properties.json';
 import { faker } from '@faker-js/faker';
 
 const repeatedUser = faker.internet.email();
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:2368/ghost/');
+    await page.goto(GhostURL);
     await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
     await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
     await page.locator('#ember10').click();
-    await page.goto('http://localhost:2368/ghost/#/members');
+    await page.goto(GhostURL + '/#/members');
 });
 
 test('No debes ser capaz de crear un miembro sin email', async ({ page }) => {
@@ -23,7 +23,7 @@ test('Debes ser capaz de crear un miembro sin nombre', async ({ page }) => {
   await page.click('text=New member');
   await page.locator('id=member-email').fill(repeatedUser);
   await page.click('text=Save');
-  await page.goto('http://localhost:2368/ghost/#/members');
+  await page.goto(GhostURL + '/#/members');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
@@ -31,7 +31,7 @@ test('No debes ser capaz de crear un miembro con email repetido', async ({ page 
   await page.click('text=New member');
   await page.locator('id=member-email').fill(repeatedUser);
   await page.click('text=Save');
-  await page.goto('http://localhost:2368/ghost/#/members');
+  await page.goto(GhostURL+'/#/members');
   await expect(page.getByText(/Retry/)).toBeTruthy();
 });
 
@@ -54,7 +54,7 @@ test('Debes ser capaz de editar un miembro sin nombre', async ({ page }) => {
   await page.locator('#ember68').click();
   await page.locator('id=member-email').fill(repeatedUser);
   await page.click('text=Save');
-  await page.goto('http://localhost:2368/ghost/#/members');
+  await page.goto(GhostURL+'/#/members');
   await expect(page.getByText(/Saved/)).toBeTruthy();
 });
 
@@ -62,7 +62,7 @@ test('No debes ser capaz de editar un miembro con email repetido', async ({ page
   await page.locator('#ember68').click();
   await page.locator('id=member-email').fill(repeatedUser);
   await page.click('text=Save');
-  await page.goto('http://localhost:2368/ghost/#/members');
+  await page.goto(GhostURL+'/#/members');
   await expect(page.getByText(/Retry/)).toBeTruthy();
 });
 

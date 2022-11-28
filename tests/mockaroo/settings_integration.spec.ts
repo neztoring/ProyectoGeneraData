@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { USERNAME, PASSWORD } from '../../properties.json';
+import { USERNAME, PASSWORD, URL_PSEUDO_INTEGRATIONS, GhostURL } from '../../properties.json';
 import { XMLHttpRequest } from 'xmlhttprequest';
 
 function httpGet(theUrl)
@@ -11,13 +11,13 @@ function httpGet(theUrl)
 }
 
 test('Crear una nueva integracion', async ({ page }) => {
-  await page.goto('http://localhost:2368/ghost/');
+  await page.goto(GhostURL);
   await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
   await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
   await page.locator('#ember10').click();
-  await page.goto('http://localhost:2368/ghost/#/settings/integrations');
+  await page.goto(GhostURL+'/#/settings/integrations');
   await page.getByText(/Add custom integration/).click();
-  await page.locator('#new-integration-name').fill(httpGet("https://my.api.mockaroo.com/ghost-integration?key=700a40d0"));
+  await page.locator('#new-integration-name').fill(httpGet(URL_PSEUDO_INTEGRATIONS));
   await page.getByRole('button', { name: 'Create' }).click();
   await expect(page.getByText(/Created/)).toBeTruthy();
 });
