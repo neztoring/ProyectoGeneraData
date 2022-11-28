@@ -1,20 +1,70 @@
+import { USERNAME, PASSWORD,GhostURL } from '../../properties.json';
 import { test, expect } from '@playwright/test';
+import { faker } from '@faker-js/faker';
 
-test('homepage has title and links to intro page', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('POST01. Post puede tener título vacío', async ({ page }) => {
+  await page.goto(GhostURL);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.waitForTimeout(2000);
+  await page.getByRole('button', { name: 'Sign in →' }).click();
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('Post title').fill('0');
+  await page.locator('#ember19 div').filter({ hasText: 'Add feature image Upload' }).nth(1).click();
+  await page.getByPlaceholder('Post title').click();
+  await page.getByPlaceholder('Post title').fill('');
+  await page.getByRole('button', { name: 'Publish' }).click();
+  const publishMessage = page.getByText('Ready, set, publish.');
+  expect(publishMessage).toBeVisible
+  page.close();
+});
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+test('POST02. Post puede tener título de longitud 1', async ({ page }) => {
+  await page.goto(GhostURL);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.waitForTimeout(2000);
+  await page.getByRole('button', { name: 'Sign in →' }).click();
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('Post title').fill(faker.datatype.string(1));
+  await page.getByRole('button', { name: 'Publish' }).click();
+  const publishMessage = page.getByText('Ready, set, publish.');
+  expect(publishMessage).toBeVisible
+  page.close();
+});
 
-  // create a locator
-  const getStarted = page.getByRole('link', { name: 'Get started' });
+test('POST03. Post puede tener título de longitud 254', async ({ page }) => {
+  await page.goto(GhostURL);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.waitForTimeout(2000);
+  await page.getByRole('button', { name: 'Sign in →' }).click();
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('Post title').fill(faker.datatype.string(254));
+  await page.getByRole('button', { name: 'Publish' }).click();
+  const publishMessage = page.getByText('Ready, set, publish.');
+  expect(publishMessage).toBeVisible
+  page.close();
+});
 
-  // Expect an attribute "to be strictly equal" to the value.
-  await expect(getStarted).toHaveAttribute('href', '/docs/intro');
-
-  // Click the get started link.
-  await getStarted.click();
-
-  // Expects the URL to contain intro.
-  await expect(page).toHaveURL(/.*intro/);
+test('POST04. Post NO puede tener título de longitud 254', async ({ page }) => {
+  await page.goto(GhostURL);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.waitForTimeout(2000);
+  await page.getByRole('button', { name: 'Sign in →' }).click();
+  await page.waitForTimeout(2000);
+  await page.getByPlaceholder('Post title').fill(faker.datatype.string(255));
+  await page.getByRole('button', { name: 'Publish' }).click();
+  const error = page.getByText('Validation failed: Title cannot be longer than 255 characters.');
+  expect(error).toBeVisible
+  page.close();
 });
