@@ -1,7 +1,8 @@
 {
-    "USERNAME": "a.alvarezh2@uniandes.edu.co",
-    "PASSWORD": "12345abcde",
+    "USERNAME": "a.reyna@uniandes.edu.com",
+    "PASSWORD": "Naranjo248.",
     "GhostURL":"http://localhost:2368/ghost/",
     "URL_PSEUDO_TAGS": "https://my.api.mockaroo.com/schema_users_tags.json?key=e1e37550",
+    "URL_PSEUDO_INTEGRATIONS": "https://my.api.mockaroo.com/ghost-integration?key=700a40d0",
     "URL_PSEUDO_PAGES": "https://my.api.mockaroo.com/schema_page.json?key=43bd05d0"
 }
