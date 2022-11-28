@@ -90,7 +90,10 @@ test('TAG02. Actualizar Tag. Crear Tag con datos básicos y actualizar', async (
   await page.locator("(//textarea[@id='meta-description'])[1]").fill(faker.commerce.productDescription());
 
 
-  
+  await page.locator("(//input[@id='canonical-url'])[1]").click();
+  await page.locator("(//input[@id='canonical-url'])[1]").fill("a::::prueba");
+
+
   await page.getByRole('button', { name: 'Close' }).click();
   await page.getByRole('button', { name: 'Save' }).click();
 
@@ -414,6 +417,75 @@ test('TAG07. Crear Tag y Crear un Post y agregar el tag al Post y visualizar el 
 
 
    
+});
+
+
+test('TAG08. Crear Tag con una longitud mayor a 384 en el campo Facebook Title', async ({ page }) => {
+  await page.goto(GhostURL);
+  await page.getByPlaceholder('jamie@example.com').click();
+  await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+  await page.getByPlaceholder('jamie@example.com').press('Tab');
+  await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+  await page.getByPlaceholder('•••••••••••••••').press('Enter');
+  await page.getByRole('link', { name: 'Tags' }).click();
+  
+  await page.locator("//span[normalize-space()='New tag']").click();
+  
+
+  let salir=false;
+  let fbTitleLong=faker.commerce.productDescription();
+  while(!salir){
+    fbTitleLong=fbTitleLong+' '+faker.commerce.productDescription();
+     if(fbTitleLong.length>384){
+      salir=true;
+     }
+  }
+
+
+  await page.getByLabel('Name').click();
+  await page.getByLabel('Name').fill(faker.commerce.product.name);
+
+
+  await page.getByRole('textbox', { name: 'Accent color picker' }).click();
+  await page.getByRole('textbox', { name: 'Accent color picker' }).fill(faker.color.rgb({ format: 'hex' }) );
+  await page.getByLabel('Slug').click();
+
+
+  await page.locator("(//textarea[@id='tag-description'])[1]").click();
+  await page.locator("(//textarea[@id='tag-description'])[1]").fill(faker.commerce.productDescription());
+
+
+  await page.getByRole('button', { name: 'Expand' }).first().click();
+  
+  await page.locator("(//input[@id='meta-title'])[1]").click();
+  await page.locator("(//input[@id='meta-title'])[1]").fill(faker.word.verb());
+
+
+  await page.locator("(//textarea[@id='meta-description'])[1]").click();
+  await page.locator("(//textarea[@id='meta-description'])[1]").fill(faker.commerce.productDescription());
+
+
+   
+  await page.getByRole('button', { name: 'Close' }).click();
+  
+
+  
+  await page.getByRole('button', { name: 'Expand' }).nth(2).click();
+  
+  
+  await page.locator("(//input[@id='og-title'])[1]").click();
+  await page.locator("(//input[@id='og-title'])[1]").fill(fbTitleLong);
+  
+  
+  
+  
+  await page.getByRole('button', { name: 'Save' }).click();
+
+ 
+  const locator = page.locator("(//div[@class='gh-alert-content'])[1]");
+  await expect(locator).toContainText("Validation error, cannot save tag");
+
+ 
 });
 
 

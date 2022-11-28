@@ -441,6 +441,82 @@ test('TAG07. Crear Tag y Crear un Post y agregar el tag al Post y visualizar el 
 });
 
 
+test('TAG08. Crear Tag con una longitud mayor a 384 en el campo Facebook Title', async ({ page,request }) => {
+await page.goto(GhostURL);
+await page.getByPlaceholder('jamie@example.com').click();
+await page.getByPlaceholder('jamie@example.com').fill(USERNAME);
+await page.getByPlaceholder('jamie@example.com').press('Tab');
+await page.getByPlaceholder('•••••••••••••••').fill(PASSWORD);
+await page.getByPlaceholder('•••••••••••••••').press('Enter');
+await page.getByRole('link', { name: 'Tags' }).click();
+
+await page.locator("//span[normalize-space()='New tag']").click();
+
+
+const response = await request.get(URL_PSEUDO_TAGS);
+let dataSpseudo= JSON.parse(await response.text());
+
+const dataTag=dataSpseudo[Math.floor(Math.random() * (99 - 0 + 1) +0)];
+
+
+let salir=false;
+let fbTitleLong=dataTag.fb_title;
+while(!salir){
+  fbTitleLong=fbTitleLong+' '+dataTag.fb_title;
+   if(fbTitleLong.length>384){
+    salir=true;
+   }
+}
+
+
+await page.getByLabel('Name').click();
+await page.getByLabel('Name').fill(dataTag.tag_name);
+
+
+await page.getByRole('textbox', { name: 'Accent color picker' }).click();
+await page.getByRole('textbox', { name: 'Accent color picker' }).fill(dataTag.tag_color );
+await page.getByLabel('Slug').click();
+
+
+await page.locator("(//textarea[@id='tag-description'])[1]").click();
+await page.locator("(//textarea[@id='tag-description'])[1]").fill(dataTag.tag_description);
+
+
+await page.getByRole('button', { name: 'Expand' }).first().click();
+
+await page.locator("(//input[@id='meta-title'])[1]").click();
+await page.locator("(//input[@id='meta-title'])[1]").fill(dataTag.tag_name);
+
+
+await page.locator("(//textarea[@id='meta-description'])[1]").click();
+await page.locator("(//textarea[@id='meta-description'])[1]").fill(dataTag.fb_description);
+
+
+ 
+await page.getByRole('button', { name: 'Close' }).click();
+
+
+
+await page.getByRole('button', { name: 'Expand' }).nth(2).click();
+
+
+await page.locator("(//input[@id='og-title'])[1]").click();
+await page.locator("(//input[@id='og-title'])[1]").fill(fbTitleLong);
+
+
+
+
+await page.getByRole('button', { name: 'Save' }).click();
+
+
+const locator = page.locator("(//div[@class='gh-alert-content'])[1]");
+await expect(locator).toContainText("Validation error, cannot save tag");
+
+
+});
+
+
+
 
 
 
